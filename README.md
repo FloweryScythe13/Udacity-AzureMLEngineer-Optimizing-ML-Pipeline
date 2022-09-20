@@ -43,6 +43,15 @@ If one were to use additional parameters for the MedianStoppingPolicy (which I o
 
 ## AutoML Pipeline ##
 
+Much simpler in its construction, my AutoML pipeline was created with the following arguments: 
+1. An `experiment_timeout_minutes` of 30 (set by instructors) - this is the length of time we allow the AutoML job to run through its various trials, not including the initial processing steps such as generating various dataset subsets for use in cross validation.
+2. A `task` value of `classification`, which is the type of model we are seeking for the current dataset
+3. A `primary_metric` set as `accuracy`, to ensure that we are using the same performance metric as the logistic regression model pipeline and are thus able to make an apples-to-apples comparison between the two pipeline outputs
+4. The `training_data`, which receives a TabularDataset variable that holds our cleaned data (joined back together after the x-y split in the `clean_data` method)
+5. A `label_column_name` of `y`, which is the label column already provided in the chosen dataset
+6. `n_cross_validations` of 5, meaning that we perform a 5-fold cross validation step on the dataset to help prevent overfitting in the trained model. (See [here](https://learn.g2.com/cross-validation) for more information on cross validation as a methodology)
+7. `compute_target`, which receives our remote training cluster instance variable `cluster` as the compute target on which to run the AutoML job. 
+
 In contrast to the LogisticRegression algorithm we chose above, the Azure AutoML service found that a VotingEnsemble algorithm produced the most accurate model from child trials. 
 
 ## Pipeline comparison

@@ -67,6 +67,7 @@ def main():
 
     accuracy = model.score(x_test, y_test)
     run.log("Accuracy", np.float(accuracy))
+    joblib.dump(model, "outputs/model.pkl")
 
 if __name__ == '__main__':
     main()
